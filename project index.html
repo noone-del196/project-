@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our World, Our Environment</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --dark-green: #0d2b1f;
+    --mid-green: #1a4731;
+    --accent-green: #3ecf8e;
+    --light-cream: #f0ede4;
+    --text-muted: #a8c5b5;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #000;
+    font-family: 'DM Sans', sans-serif;
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+  }
+
+  #presentation {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.1s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .slide.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  /* ── TRANSITIONS ── */
+  .slide.entering-fade { animation: fadeIn 1s ease forwards; }
+  .slide.leaving-fade { animation: fadeOut 0.8s ease forwards; }
+  .slide.entering-slide-up { animation: slideUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+  .slide.leaving-slide-up { animation: slideDown 0.8s cubic-bezier(0.7, 0, 0.84, 0) forwards; }
+  .slide.entering-zoom { animation: zoomIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+  .slide.leaving-zoom { animation: zoomOut 0.8s ease forwards; }
+  .slide.entering-reveal { animation: revealIn 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+  .slide.leaving-reveal { animation: fadeOut 0.8s ease forwards; }
+
+  @keyframes fadeIn { from { opacity: 0 } to { opacity: 1 } }
+  @keyframes fadeOut { from { opacity: 1 } to { opacity: 0 } }
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(60px) }
+    to { opacity: 1; transform: translateY(0) }
+  }
+  @keyframes slideDown {
+    from { opacity: 1; transform: translateY(0) }
+    to { opacity: 0; transform: translateY(-60px) }
+  }
+  @keyframes zoomIn {
+    from { opacity: 0; transform: scale(0.92) }
+    to { opacity: 1; transform: scale(1) }
+  }
+  @keyframes zoomOut {
+    from { opacity: 1; transform: scale(1) }
+    to { opacity: 0; transform: scale(1.06) }
+  }
+  @keyframes revealIn {
+    from { opacity: 0; clip-path: inset(0 100% 0 0) }
+    to { opacity: 1; clip-path: inset(0 0% 0 0) }
+  }
+
+  /* ── SLIDE INNER ANIMATIONS ── */
+  .anim { opacity: 0; }
+  .slide.active .anim { animation: animIn 0.7s ease forwards; }
+  .slide.active .anim:nth-child(1) { animation-delay: 0.3s }
+  .slide.active .anim:nth-child(2) { animation-delay: 0.5s }
+  .slide.active .anim:nth-child(3) { animation-delay: 0.7s }
+  .slide.active .anim:nth-child(4) { animation-delay: 0.9s }
+  .slide.active .anim:nth-child(5) { animation-delay: 1.1s }
+  .slide.active .anim:nth-child(6) { animation-delay: 1.3s }
+  .slide.active .stat-num { animation: countUp 1.5s ease forwards; animation-delay: 0.6s; }
+  @keyframes animIn { from { opacity: 0; transform: translateY(24px) } to { opacity: 1; transform: translateY(0) } }
+  @keyframes countUp { from { opacity: 0; transform: scale(0.6) } to { opacity: 1; transform: scale(1) } }
+
+  /* ── SLIDE 1: TITLE ── */
+  #s1 {
+    background: radial-gradient(ellipse at 30% 50%, #1a4731 0%, #0d2b1f 60%, #061a11 100%);
+  }
+  #s1 .inner {
+    max-width: 1100px;
+    width: 90%;
+    padding: 60px;
+    position: relative;
+  }
+  #s1 .tag {
+    font-size: 13px;
+    letter-spacing: 4px;
+    color: var(--accent-green);
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 40px;
+  }
+  #s1 .tag::before {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 1.5px;
+    background: var(--accent-green);
+  }
+  #s1 h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(60px, 9vw, 110px);
+    line-height: 1.0;
+    color: #fff;
+    margin-bottom: 12px;
+  }
+  #s1 h1 span { color: var(--accent-green); }
+  #s1 p {
+    font-size: 20px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    max-width: 560px;
+    margin: 30px 0 50px;
+  }
+  #s1 .year {
+    font-size: 13px;
+    letter-spacing: 3px;
+    color: #4a7a62;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  #s1 .year::before {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: #4a7a62;
+  }
+  #s1 .orb {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 280px;
+    height: 280px;
+  }
+  #s1 .orb-outer {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 1.5px solid rgba(62,207,142,0.2);
+    animation: pulse 3s ease-in-out infinite;
+  }
+  #s1 .orb-inner {
+    position: absolute;
+    inset: 20%;
+    border-radius: 50%;
+    background: radial-gradient(circle, #2d6b4a, #1a4731);
+    animation: pulse 3s ease-in-out infinite reverse;
+  }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+
+  /* ── SLIDE 2: ECOSYSTEMS ── */
+  #s2 {
+    background: #fff;
+  }
+  #s2 .inner {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    height: 100vh;
+    width: 100%;
+    max-width: 100%;
+  }
+  #s2 .left {
+    background: var(--mid-green);
+    padding: 80px 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  #s2 .dash {
+    width: 40px;
+    height: 3px;
+    background: var(--accent-green);
+    margin-bottom: 32px;
+  }
+  #s2 h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 5vw, 58px);
+    color: #fff;
+    line-height: 1.1;
+    margin-bottom: 24px;
+  }
+  #s2 .sub {
+    font-size: 17px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+  #s2 .right {
+    padding: 60px 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0;
+  }
+  #s2 .eco-item {
+    padding: 32px 0;
+    border-bottom: 1px solid rgba(13,43,31,0.12);
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+  }
+  #s2 .eco-item:last-child { border-bottom: none; }
+  #s2 .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--accent-green);
+    margin-top: 6px;
+    flex-shrink: 0;
+  }
+  #s2 .eco-item h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    color: var(--dark-green);
+    margin-bottom: 10px;
+  }
+  #s2 .eco-item p {
+    font-size: 16px;
+    color: #5a7a6a;
+    line-height: 1.5;
+  }
+
+  /* ── SLIDE 3: BIODIVERSITY ── */
+  #s3 {
+    background: radial-gradient(ellipse at 60% 40%, #1a4731, #0d2b1f 70%, #061a11);
+  }
+  #s3 .inner {
+    max-width: 1100px;
+    width: 90%;
+    padding: 60px;
+  }
+  #s3 .tag {
+    font-size: 12px;
+    letter-spacing: 5px;
+    color: var(--accent-green);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  #s3 h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(42px, 6vw, 70px);
+    color: #fff;
+    margin-bottom: 60px;
+  }
+  #s3 .stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 50px;
+  }
+  #s3 .stat-card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(62,207,142,0.15);
+    border-radius: 12px;
+    padding: 50px 40px;
+  }
+  #s3 .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(56px, 8vw, 90px);
+    color: var(--accent-green);
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+  #s3 .stat-card p { font-size: 18px; color: var(--text-muted); }
+  #s3 .facts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  #s3 .fact { font-size: 16px; color: #7aaa90; line-height: 1.5; }
+  #s3 .fact strong { color: var(--accent-green); }
+
+  /* ── SLIDE 4: CLIMATE CHANGE ── */
+  #s4 {
+    background: var(--light-cream);
+  }
+  #s4 .inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 100vh;
+    width: 100%;
+  }
+  #s4 .left {
+    padding: 80px 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  #s4 .dash {
+    width: 40px;
+    height: 3px;
+    background: var(--mid-green);
+    margin-bottom: 32px;
+  }
+  #s4 h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(42px, 5vw, 64px);
+    color: var(--dark-green);
+    margin-bottom: 40px;
+  }
+  #s4 .point {
+    padding: 20px 0 20px 24px;
+    border-left: 3px solid var(--mid-green);
+    margin-bottom: 16px;
+    font-size: 18px;
+    color: #3a5a4a;
+    line-height: 1.5;
+  }
+  #s4 .point strong { color: var(--dark-green); }
+  #s4 .right {
+    background: var(--mid-green);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+  }
+  #s4 .big-temp {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(90px, 14vw, 170px);
+    color: #fff;
+    line-height: 1;
+  }
+  #s4 .right p {
+    font-size: 18px;
+    color: var(--text-muted);
+    text-align: center;
+    max-width: 300px;
+    line-height: 1.6;
+  }
+  #s4 .label {
+    font-size: 12px;
+    letter-spacing: 3px;
+    color: #7aaa90;
+    text-transform: uppercase;
+    border: 1px solid rgba(62,207,142,0.3);
+    padding: 10px 20px;
+    border-radius: 4px;
+  }
+
+  /* ── SLIDE 5: HUMAN IMPACT ── */
+  #s5 {
+    background: radial-gradient(ellipse at 20% 80%, #1a4731, #0d2b1f 50%, #061a11);
+  }
+  #s5 .inner {
+    max-width: 1100px;
+    width: 90%;
+    padding: 60px;
+  }
+  #s5 .tag {
+    font-size: 12px;
+    letter-spacing: 5px;
+    color: var(--accent-green);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  #s5 h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 5vw, 62px);
+    color: #fff;
+    margin-bottom: 60px;
+  }
+  #s5 .impact-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border-top: 1px solid rgba(62,207,142,0.2);
+  }
+  #s5 .impact-item {
+    padding: 40px 40px 40px 0;
+    border-right: 1px solid rgba(62,207,142,0.1);
+  }
+  #s5 .impact-item:last-child { border-right: none; padding-right: 0; }
+  #s5 .impact-item:not(:first-child) { padding-left: 40px; }
+  #s5 .impact-num {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(48px, 6vw, 80px);
+    color: var(--accent-green);
+    line-height: 1;
+  }
+  #s5 .impact-unit {
+    font-size: 13px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #7aaa90;
+    margin: 8px 0 20px;
+  }
+  #s5 .impact-item p { font-size: 17px; color: var(--text-muted); line-height: 1.5; }
+  #s5 .footer {
+    margin-top: 50px;
+    padding-top: 30px;
+    border-top: 1px solid rgba(62,207,142,0.1);
+    font-size: 16px;
+    color: #4a7a62;
+    font-style: italic;
+  }
+
+  /* ── SLIDE 6: WATER ── */
+  #s6 {
+    background: var(--light-cream);
+  }
+  #s6 .inner {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    height: 100vh;
+    width: 100%;
+  }
+  #s6 .left {
+    background: var(--mid-green);
+    padding: 80px 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  #s6 .dash { width: 40px; height: 3px; background: var(--accent-green); margin-bottom: 32px; }
+  #s6 h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 5vw, 56px);
+    color: #fff;
+    margin-bottom: 20px;
+  }
+  #s6 .sub { font-size: 16px; color: var(--text-muted); line-height: 1.6; margin-bottom: 40px; }
+  #s6 .stat-box {
+    background: rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 36px;
+  }
+  #s6 .stat-box .big {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(56px, 8vw, 80px);
+    color: var(--accent-green);
+    line-height: 1;
+  }
+  #s6 .stat-box p { font-size: 16px; color: var(--text-muted); margin-top: 10px; }
+  #s6 .right {
+    padding: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0;
+  }
+  #s6 .w-item { padding: 28px 0; border-bottom: 1px solid rgba(13,43,31,0.12); }
+  #s6 .w-item:last-child { border-bottom: none; }
+  #s6 .w-item .num {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    color: var(--dark-green);
+    margin-bottom: 6px;
+  }
+  #s6 .w-item h3 { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--dark-green); margin-bottom: 8px; }
+  #s6 .w-item p { font-size: 16px; color: #5a7a6a; line-height: 1.5; }
+
+  /* ── SLIDE 7: SOLUTIONS ── */
+  #s7 {
+    background: radial-gradient(ellipse at 70% 30%, #1a4731, #0d2b1f 60%, #061a11);
+  }
+  #s7 .inner {
+    max-width: 1100px;
+    width: 90%;
+    padding: 60px;
+  }
+  #s7 .tag { font-size: 12px; letter-spacing: 5px; color: var(--accent-green); text-transform: uppercase; margin-bottom: 16px; }
+  #s7 h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 5vw, 64px);
+    color: #fff;
+    margin-bottom: 50px;
+  }
+  #s7 .grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 30px;
+  }
+  #s7 .sol-cards { display: flex; flex-direction: column; gap: 20px; }
+  #s7 .sol-card {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(62,207,142,0.2);
+    border-radius: 12px;
+    padding: 36px;
+  }
+  #s7 .sol-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    color: var(--accent-green);
+    margin-bottom: 12px;
+  }
+  #s7 .sol-card p { font-size: 16px; color: var(--text-muted); line-height: 1.5; }
+  #s7 .actions { padding: 20px 0; }
+  #s7 .actions h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    color: #fff;
+    margin-bottom: 24px;
+  }
+  #s7 .action-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    font-size: 17px;
+    color: var(--text-muted);
+  }
+  #s7 .action-item::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent-green);
+    flex-shrink: 0;
+  }
+
+  /* ── SLIDE 8: GLOBAL GOALS ── */
+  #s8 {
+    background: var(--light-cream);
+  }
+  #s8 .inner {
+    max-width: 1200px;
+    width: 92%;
+    padding: 60px;
+  }
+  #s8 .dash { width: 40px; height: 3px; background: var(--mid-green); margin-bottom: 24px; }
+  #s8 h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(38px, 5vw, 64px);
+    color: var(--dark-green);
+    margin-bottom: 50px;
+  }
+  #s8 .goals-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+  }
+  #s8 .goal-card {
+    border-radius: 12px;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-height: 340px;
+  }
+  #s8 .goal-card.dark { background: var(--mid-green); }
+  #s8 .goal-card.darker { background: #1e5c3a; }
+  #s8 .goal-card.light { background: #e8e4da; }
+  #s8 .goal-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 72px;
+    color: var(--accent-green);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  #s8 .goal-unit { font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: #7aaa90; margin-bottom: 20px; }
+  #s8 .goal-card h3 { font-family: 'Playfair Display', serif; font-size: 22px; margin-bottom: 12px; }
+  #s8 .goal-card.dark h3, #s8 .goal-card.darker h3 { color: #fff; }
+  #s8 .goal-card.light h3 { color: var(--dark-green); }
+  #s8 .goal-card p { font-size: 15px; line-height: 1.5; }
+  #s8 .goal-card.dark p, #s8 .goal-card.darker p { color: var(--text-muted); }
+  #s8 .goal-card.light p { color: #5a7a6a; }
+  #s8 .sub-goals { margin-top: 16px; display: flex; flex-direction: column; gap: 16px; }
+  #s8 .sub-goal h4 { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--dark-green); margin-bottom: 6px; }
+  #s8 .sub-goal p { font-size: 14px; color: #5a7a6a; }
+  #s8 .divider { height: 1px; background: rgba(13,43,31,0.15); margin: 12px 0; }
+
+  /* ── SLIDE 9: CLOSING ── */
+  #s9 {
+    background: radial-gradient(ellipse at 50% 50%, #1a4731, #0d2b1f 50%, #061a11);
+  }
+  #s9 .inner {
+    text-align: center;
+    max-width: 900px;
+    padding: 60px;
+  }
+  #s9 .quote {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 4vw, 50px);
+    color: #fff;
+    line-height: 1.3;
+    margin-bottom: 50px;
+    position: relative;
+  }
+  #s9 .quote::before, #s9 .quote::after {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 2px;
+    background: var(--accent-green);
+    margin: 0 auto 30px;
+  }
+  #s9 .quote::after { margin: 30px auto 0; }
+  #s9 .sub { font-size: 18px; color: #7aaa90; margin-bottom: 30px; }
+  #s9 .footer-tag {
+    font-size: 12px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: #4a7a62;
+  }
+
+  /* ── CONTROLS ── */
+  #controls {
+    position: fixed;
+    bottom: 36px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    z-index: 100;
+    background: rgba(13,43,31,0.7);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(62,207,142,0.2);
+    border-radius: 50px;
+    padding: 12px 24px;
+  }
+
+  #controls button {
+    background: none;
+    border: none;
+    color: var(--accent-green);
+    cursor: pointer;
+    font-size: 20px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+  }
+  #controls button:hover { background: rgba(62,207,142,0.1); }
+
+  #slide-counter {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--text-muted);
+    min-width: 60px;
+    text-align: center;
+  }
+
+  #dots {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .dot-btn {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(62,207,142,0.3);
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s;
+    padding: 0;
+  }
+  .dot-btn.active {
+    background: var(--accent-green);
+    width: 24px;
+    border-radius: 4px;
+  }
+
+  #autoplay-btn { font-size: 16px !important; }
+
+  /* Progress bar */
+  #progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    background: var(--accent-green);
+    transition: width 0.4s ease;
+    z-index: 200;
+    box-shadow: 0 0 8px rgba(62,207,142,0.5);
+  }
+
+  /* Keyboard hint */
+  #hint {
+    position: fixed;
+    top: 20px;
+    right: 24px;
+    font-size: 12px;
+    color: rgba(62,207,142,0.4);
+    letter-spacing: 1px;
+  }
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+<div id="hint">← → KEYS OR CLICK</div>
+
+<div id="presentation">
+
+  <!-- SLIDE 1: TITLE -->
+  <div class="slide active" id="s1" data-transition="fade">
+    <div class="inner">
+      <div class="tag anim">Project Presentation</div>
+      <div class="anim">
+        <h1>Our World,<br><span>Our Environment</span></h1>
+      </div>
+      <p class="anim">A comprehensive study of Earth's ecosystems, environmental challenges, and the path to a sustainable future</p>
+      <div class="year anim">2026</div>
+      <div class="orb anim">
+        <div class="orb-outer"></div>
+        <div class="orb-inner"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 2: ECOSYSTEMS -->
+  <div class="slide" id="s2" data-transition="slide-up">
+    <div class="inner">
+      <div class="left">
+        <div class="dash anim"></div>
+        <h2 class="anim">Earth's Major Ecosystems</h2>
+        <p class="sub anim">The living systems that sustain all life on our planet</p>
+      </div>
+      <div class="right">
+        <div class="eco-item anim">
+          <div class="dot"></div>
+          <div>
+            <h3>Forests</h3>
+            <p>Cover 31% of Earth's land surface — lungs of the planet, home to 80% of terrestrial species</p>
+          </div>
+        </div>
+        <div class="eco-item anim">
+          <div class="dot"></div>
+          <div>
+            <h3>Oceans</h3>
+            <p>Regulate global climate and produce 50% of Earth's oxygen</p>
+          </div>
+        </div>
+        <div class="eco-item anim">
+          <div class="dot"></div>
+          <div>
+            <h3>Grasslands, Wetlands & Tundra</h3>
+            <p>Vital biodiversity hotspots — each plays a unique and irreplaceable role</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 3: BIODIVERSITY -->
+  <div class="slide" id="s3" data-transition="zoom">
+    <div class="inner">
+      <div class="tag anim">Biodiversity</div>
+      <h2 class="anim">Life on Earth</h2>
+      <div class="stats-grid">
+        <div class="stat-card anim">
+          <div class="stat-num">8.7M</div>
+          <p>estimated species on the planet</p>
+        </div>
+        <div class="stat-card anim">
+          <div class="stat-num">1.2M</div>
+          <p>species formally identified so far</p>
+        </div>
+      </div>
+      <div class="facts">
+        <div class="fact anim">Biodiversity ensures ecosystem resilience and long-term stability</div>
+        <div class="fact anim">Current extinction rate is <strong>1,000×</strong> the natural background rate</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 4: CLIMATE CHANGE -->
+  <div class="slide" id="s4" data-transition="slide-up">
+    <div class="inner">
+      <div class="left">
+        <div class="dash anim"></div>
+        <h2 class="anim">Climate Change</h2>
+        <div class="point anim">Global temperature has risen <strong>1.1°C</strong> since pre-industrial times</div>
+        <div class="point anim">Greenhouse gases — CO₂, methane, nitrous oxide — are key drivers</div>
+        <div class="point anim">Consequences: rising sea levels, extreme weather, melting ice caps</div>
+      </div>
+      <div class="right">
+        <div class="big-temp anim">1.5°C</div>
+        <p class="anim">The IPCC's critical threshold — warming must stay below this limit to avoid the worst outcomes</p>
+        <div class="label anim">IPCC TARGET</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 5: HUMAN IMPACT -->
+  <div class="slide" id="s5" data-transition="zoom">
+    <div class="inner">
+      <div class="tag anim">The Human Footprint</div>
+      <h2 class="anim">Human Impact on the Environment</h2>
+      <div class="impact-grid">
+        <div class="impact-item anim">
+          <div class="impact-num">10M</div>
+          <div class="impact-unit">Hectares</div>
+          <p>of forest lost every year to deforestation</p>
+        </div>
+        <div class="impact-item anim">
+          <div class="impact-num">8M</div>
+          <div class="impact-unit">Tonnes</div>
+          <p>of plastic entering our oceans annually</p>
+        </div>
+        <div class="impact-item anim">
+          <div class="impact-num">70%</div>
+          <div class="impact-unit">of freshwater</div>
+          <p>consumed by global agriculture</p>
+        </div>
+      </div>
+      <div class="footer anim">Urban expansion and industrial activity continue to reshape and stress natural landscapes worldwide</div>
+    </div>
+  </div>
+
+  <!-- SLIDE 6: WATER -->
+  <div class="slide" id="s6" data-transition="slide-up">
+    <div class="inner">
+      <div class="left">
+        <div class="dash anim"></div>
+        <h2 class="anim">Water: The Cycle of Life</h2>
+        <p class="sub anim">The most essential resource — and among the most threatened</p>
+        <div class="stat-box anim">
+          <div class="big">3%</div>
+          <p>of Earth's water is fresh — and 2.5% is frozen or underground</p>
+        </div>
+      </div>
+      <div class="right">
+        <div class="w-item anim">
+          <div class="num">2.2 Billion</div>
+          <p>people lack access to safe drinking water</p>
+        </div>
+        <div class="w-item anim">
+          <h3>Worsening Extremes</h3>
+          <p>Droughts, floods, and water scarcity are intensifying globally</p>
+        </div>
+        <div class="w-item anim">
+          <h3>The Path Forward</h3>
+          <p>Conservation and sustainable water management are critical priorities</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 7: SOLUTIONS -->
+  <div class="slide" id="s7" data-transition="zoom">
+    <div class="inner">
+      <div class="tag anim">Solutions</div>
+      <h2 class="anim">Renewable Energy & Green Solutions</h2>
+      <div class="grid">
+        <div class="sol-cards">
+          <div class="sol-card anim">
+            <h3>Solar & Wind</h3>
+            <p>The fastest-growing energy sources on the planet — renewable capacity grew 9.1% in 2023</p>
+          </div>
+          <div class="sol-card anim">
+            <h3>Circular Economy</h3>
+            <p>Reduce waste, extend product life, and conserve natural resources at every stage</p>
+          </div>
+        </div>
+        <div class="actions anim">
+          <h3>Individual Actions</h3>
+          <div class="action-item">Reduce consumption</div>
+          <div class="action-item">Reuse materials</div>
+          <div class="action-item">Recycle responsibly</div>
+          <div class="action-item">Advocate for change</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 8: GLOBAL GOALS -->
+  <div class="slide" id="s8" data-transition="slide-up">
+    <div class="inner">
+      <div class="dash anim"></div>
+      <h2 class="anim">Global Goals for Sustainability</h2>
+      <div class="goals-grid">
+        <div class="goal-card dark anim">
+          <div class="goal-num">17</div>
+          <div class="goal-unit">SDGs</div>
+          <h3>UN Sustainable Development Goals</h3>
+          <p>A global framework with a 2030 deadline for people, planet, and prosperity</p>
+        </div>
+        <div class="goal-card darker anim">
+          <div class="goal-num">196</div>
+          <div class="goal-unit">Countries</div>
+          <h3>Paris Agreement</h3>
+          <p>Committed to limiting warming and transitioning to clean energy</p>
+        </div>
+        <div class="goal-card light anim">
+          <div class="sub-goals">
+            <div class="sub-goal">
+              <h4>Nature-Based Solutions</h4>
+              <p>Protect and restore ecosystems to absorb carbon and build resilience</p>
+            </div>
+            <div class="divider"></div>
+            <div class="sub-goal">
+              <h4>Education & Awareness</h4>
+              <p>Informed citizens drive the lasting change that policy alone cannot</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 9: CLOSING -->
+  <div class="slide" id="s9" data-transition="fade">
+    <div class="inner">
+      <div class="quote anim">"The environment is not inherited from our ancestors — it is borrowed from our children."</div>
+      <p class="sub anim">Every action, large or small, shapes the world we leave behind.</p>
+      <div class="footer-tag anim">Our Shared Responsibility</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- CONTROLS -->
+<div id="controls">
+  <button id="prev-btn" title="Previous">&#8592;</button>
+  <div id="dots"></div>
+  <div id="slide-counter">1 / 9</div>
+  <button id="next-btn" title="Next">&#8594;</button>
+  <button id="autoplay-btn" title="Autoplay">&#9654;</button>
+</div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const total = slides.length;
+let current = 0;
+let autoplayInterval = null;
+let isAnimating = false;
+
+const progressBar = document.getElementById('progress');
+const counter = document.getElementById('slide-counter');
+const dotsContainer = document.getElementById('dots');
+const autoBtn = document.getElementById('autoplay-btn');
+
+// Build dots
+slides.forEach((_, i) => {
+  const d = document.createElement('button');
+  d.className = 'dot-btn' + (i === 0 ? ' active' : '');
+  d.addEventListener('click', () => goTo(i));
+  dotsContainer.appendChild(d);
+});
+
+function updateUI() {
+  const dots = dotsContainer.querySelectorAll('.dot-btn');
+  dots.forEach((d, i) => d.classList.toggle('active', i === current));
+  counter.textContent = `${current + 1} / ${total}`;
+  progressBar.style.width = `${((current + 1) / total) * 100}%`;
+}
+
+function getTransition(slide) {
+  return slide.dataset.transition || 'fade';
+}
+
+function goTo(index, direction) {
+  if (isAnimating || index === current) return;
+  isAnimating = true;
+
+  const prev = slides[current];
+  const next = slides[index];
+  const trans = getTransition(next);
+
+  // Leave animation
+  prev.classList.add(`leaving-${trans}`);
+
+  setTimeout(() => {
+    prev.classList.remove('active', `leaving-${trans}`);
+    prev.style.opacity = '';
+
+    // Reset inner anim elements
+    next.querySelectorAll('.anim, .stat-num').forEach(el => {
+      el.style.animation = 'none';
+      void el.offsetWidth; // reflow
+      el.style.animation = '';
+    });
+
+    current = index;
+    next.classList.add('active', `entering-${trans}`);
+    updateUI();
+
+    setTimeout(() => {
+      next.classList.remove(`entering-${trans}`);
+      isAnimating = false;
+    }, 1200);
+  }, 800);
+}
+
+function next() { goTo((current + 1) % total); }
+function prev() { goTo((current - 1 + total) % total); }
+
+document.getElementById('next-btn').addEventListener('click', next);
+document.getElementById('prev-btn').addEventListener('click', prev);
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') next();
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') prev();
+  if (e.key === ' ') { e.preventDefault(); toggleAutoplay(); }
+});
+
+function toggleAutoplay() {
+  if (autoplayInterval) {
+    clearInterval(autoplayInterval);
+    autoplayInterval = null;
+    autoBtn.innerHTML = '&#9654;';
+  } else {
+    autoplayInterval = setInterval(next, 5000);
+    autoBtn.innerHTML = '&#9646;&#9646;';
+  }
+}
+autoBtn.addEventListener('click', toggleAutoplay);
+
+// Touch support
+let touchStartX = 0;
+document.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; });
+document.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  if (Math.abs(dx) > 50) { dx < 0 ? next() : prev(); }
+});
+
+updateUI();
+</script>
+</body>
+</html>
